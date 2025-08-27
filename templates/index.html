@@ -6,53 +6,104 @@
     <title>Customer Churn Predictor</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px auto;
-            max-width: 800px;
-            padding: 20px;
-            background-color: #f4f4f4;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 10px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 30px 40px;
+            max-width: 850px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         h2 {
             text-align: center;
+            margin-bottom: 25px;
             color: #333;
+            font-size: 26px;
+            font-weight: bold;
         }
 
-        form {
-            background-color: #fff;
-            padding: 25px;
+        .section {
+            margin-bottom: 20px;
+            border: 1px solid #eee;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section summary {
+            padding: 12px 16px;
+            background: #f4f4f4;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section summary:hover {
+            background: #eaeaea;
+        }
+
+        .section-content {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
-            font-weight: bold;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
         }
 
         input,
         select {
             width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            margin-top: 20px;
-            width: 100%;
             padding: 10px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
         }
 
-        button:hover {
-            background-color: #004d99;
+        input:focus,
+        select:focus {
+            border-color: #2575fc;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #2575fc;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #1a5ed6;
         }
 
         #result {
@@ -60,136 +111,220 @@
             text-align: center;
             font-size: 18px;
             font-weight: bold;
-            color: green;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        #result.success {
+            background: #e6ffed;
+            border: 2px solid #27ae60;
+            color: #27ae60;
+        }
+
+        #result.error {
+            background: #ffe6e6;
+            border: 2px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h2>Customer Churn Prediction</h2>
+    <div class="container">
+        <h2>Customer Churn Prediction</h2>
 
-    <form id="churnForm">
-        <label for="gender">Gender:</label>
-        <select name="gender" required>
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
-        </select>
+        <form id="churnForm">
+            <!-- SECTION 1: Customer Info -->
+            <details class="section" open>
+                <summary>👤 Customer Information</summary>
+                <div class="section-content">
+                    <div>
+                        <label>Gender:</label>
+                        <select name="gender" required>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
 
-        <label for="SeniorCitizen">Senior Citizen:</label>
-        <select name="SeniorCitizen" required>
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select>
+                    <div>
+                        <label>Senior Citizen:</label>
+                        <select name="SeniorCitizen" required>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
 
-        <label for="Partner">Partner:</label>
-        <select name="Partner" required>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+                    <div>
+                        <label>Partner:</label>
+                        <select name="Partner" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
 
-        <label for="Dependents">Dependents:</label>
-        <select name="Dependents" required>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+                    <div>
+                        <label>Dependents:</label>
+                        <select name="Dependents" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
 
-        <label for="tenure">Tenure (in months):</label>
-        <input type="number" name="tenure" min="0" required>
+                    <div>
+                        <label>Tenure (months):</label>
+                        <input type="number" name="tenure" min="0" required>
+                    </div>
+                </div>
+            </details>
 
-        <label for="PhoneService">Phone Service:</label>
-        <select name="PhoneService" required>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+            <!-- SECTION 2: Services -->
+            <details class="section">
+                <summary>📡 Services</summary>
+                <div class="section-content">
+                    <div>
+                        <label>Phone Service:</label>
+                        <select name="PhoneService" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
 
-        <label for="MultipleLines">Multiple Lines:</label>
-        <select name="MultipleLines" required>
-            <option value="No phone service">No phone service</option>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-        </select>
+                    <div>
+                        <label>Multiple Lines:</label>
+                        <select name="MultipleLines" required>
+                            <option value="No phone service">No phone service</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
 
-        <label for="InternetService">Internet Service:</label>
-        <select name="InternetService" required>
-            <option value="DSL">DSL</option>
-            <option value="Fiber optic">Fiber optic</option>
-            <option value="No">No</option>
-        </select>
+                    <div>
+                        <label>Internet Service:</label>
+                        <select name="InternetService" required>
+                            <option value="DSL">DSL</option>
+                            <option value="Fiber optic">Fiber optic</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
 
-        <label for="OnlineSecurity">Online Security:</label>
-        <select name="OnlineSecurity" required>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-            <option value="No internet service">No internet service</option>
-        </select>
+                    <div>
+                        <label>Online Security:</label>
+                        <select name="OnlineSecurity" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
 
-        <label for="OnlineBackup">Online Backup:</label>
-        <select name="OnlineBackup" required>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-            <option value="No internet service">No internet service</option>
-        </select>
+                    <div>
+                        <label>Online Backup:</label>
+                        <select name="OnlineBackup" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
 
-        <label for="DeviceProtection">Device Protection:</label>
-        <select name="DeviceProtection" required>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-            <option value="No internet service">No internet service</option>
-        </select>
+                    <div>
+                        <label>Device Protection:</label>
+                        <select name="DeviceProtection" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
 
-        <label for="TechSupport">Tech Support:</label>
-        <select name="TechSupport" required>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-            <option value="No internet service">No internet service</option>
-        </select>
+                    <div>
+                        <label>Tech Support:</label>
+                        <select name="TechSupport" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
 
-        <label for="StreamingTV">Streaming TV:</label>
-        <select name="StreamingTV" required>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-            <option value="No internet service">No internet service</option>
-        </select>
+                    <div>
+                        <label>Streaming TV:</label>
+                        <select name="StreamingTV" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
 
-        <label for="StreamingMovies">Streaming Movies:</label>
-        <select name="StreamingMovies" required>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-            <option value="No internet service">No internet service</option>
-        </select>
+                    <div>
+                        <label>Streaming Movies:</label>
+                        <select name="StreamingMovies" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                </div>
+            </details>
 
-        <label for="Contract">Contract:</label>
-        <select name="Contract" required>
-            <option value="Month-to-month">Month-to-month</option>
-            <option value="One year">One year</option>
-            <option value="Two year">Two year</option>
-        </select>
+            <!-- SECTION 3: Billing -->
+            <details class="section">
+                <summary>💳 Billing</summary>
+                <div class="section-content">
+                    <div>
+                        <label>Contract:</label>
+                        <select name="Contract" required>
+                            <option value="Month-to-month">Month-to-month</option>
+                            <option value="One year">One year</option>
+                            <option value="Two year">Two year</option>
+                        </select>
+                    </div>
 
-        <label for="PaperlessBilling">Paperless Billing:</label>
-        <select name="PaperlessBilling" required>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+                    <div>
+                        <label>Paperless Billing:</label>
+                        <select name="PaperlessBilling" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
 
-        <label for="PaymentMethod">Payment Method:</label>
-        <select name="PaymentMethod" required>
-            <option value="Electronic check">Electronic check</option>
-            <option value="Mailed check">Mailed check</option>
-            <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
-            <option value="Credit card (automatic)">Credit card (automatic)</option>
-        </select>
+                    <div>
+                        <label>Payment Method:</label>
+                        <select name="PaymentMethod" required>
+                            <option value="Electronic check">Electronic check</option>
+                            <option value="Mailed check">Mailed check</option>
+                            <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                            <option value="Credit card (automatic)">Credit card (automatic)</option>
+                        </select>
+                    </div>
 
-        <label for="MonthlyCharges">Monthly Charges:</label>
-        <input type="number" step="0.01" min="0" name="MonthlyCharges" required>
+                    <div>
+                        <label>Monthly Charges:</label>
+                        <input type="number" step="0.01" min="0" name="MonthlyCharges" required>
+                    </div>
 
-        <label for="TotalCharges">Total Charges:</label>
-        <input type="number" step="0.01" min="0" name="TotalCharges" required>
+                    <div>
+                        <label>Total Charges:</label>
+                        <input type="number" step="0.01" min="0" name="TotalCharges" required>
+                    </div>
+                </div>
+            </details>
 
-        <button type="submit">Predict Churn</button>
-    </form>
+            <button type="submit" class="btn">Predict Churn</button>
+        </form>
 
-    <div id="result"></div>
+        <div id="result"></div>
+    </div>
 
     <script>
         const form = document.getElementById('churnForm');
@@ -202,7 +337,6 @@
             const jsonData = {};
 
             for (const [key, value] of formData.entries()) {
-                // Convert numerical inputs to numbers, keep strings as-is
                 if (key === 'tenure' || key === 'MonthlyCharges' || key === 'TotalCharges' || key === 'SeniorCitizen') {
                     jsonData[key] = Number(value);
                 } else {
@@ -213,23 +347,29 @@
             try {
                 const response = await fetch('/predict', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(jsonData)
                 });
 
                 const data = await response.json();
 
+                resultDiv.style.display = 'block';
+
                 if (response.ok) {
-                    resultDiv.style.color = 'green';
-                    resultDiv.innerText = `Prediction: ${data.prediction} | Probability: ${(data.probability * 100).toFixed(2)}%`;
+                    if (data.prediction === "Churn") {
+                        resultDiv.className = "error";
+                    } else {
+                        resultDiv.className = "success";
+                    }
+                    resultDiv.innerText =
+                        `Prediction: ${data.prediction} | Probability: ${(data.probability * 100).toFixed(2)}%`;
                 } else {
-                    resultDiv.style.color = 'red';
+                    resultDiv.className = "error";
                     resultDiv.innerText = `Error: ${data.error}`;
                 }
             } catch (error) {
-                resultDiv.style.color = 'red';
+                resultDiv.style.display = 'block';
+                resultDiv.className = "error";
                 resultDiv.innerText = 'Error occurred. Please try again.';
                 console.error(error);
             }
