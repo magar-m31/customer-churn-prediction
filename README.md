@@ -79,6 +79,13 @@ http://127.0.0.1:5000/
 
 Enter customer details and get churn prediction instantly ✅
 
+# Customer Churn Prediction Dashboard
+
+Here’s a preview of the dashboard:
+
+![Dashboard Screenshot](images/dashboard.png)
+
+
 📈 Results
 
 Achieved ~XX% accuracy on the test set.
@@ -101,4 +108,3 @@ Improve feature engineering
 
 This project is licensed under the MIT License. See the LICENSE
  file for details.
- 
