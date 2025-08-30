@@ -93,8 +93,6 @@ The model helps identify high-risk customers who are likely to leave.
 
 Deploy app on Heroku / Render / Hugging Face Spaces for public access
 
-Add visualization dashboards
-
 Experiment with deep learning models
 
 Improve feature engineering
