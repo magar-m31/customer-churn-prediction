@@ -79,11 +79,6 @@ http://127.0.0.1:5000/
 
 Enter customer details and get churn prediction instantly ✅
 
-# Customer Churn Prediction Dashboard
-
-Here’s a preview of the dashboard:
-
-![Dashboard Screenshot](dashboard.png)
 
 
 📈 Results
