@@ -83,7 +83,7 @@ Enter customer details and get churn prediction instantly ✅
 
 Here’s a preview of the dashboard:
 
-![Dashboard Screenshot](images/dashboard.png)
+![Dashboard Screenshot](Customer-Churn-Prediction/images/dashboard.png)
 
 
 📈 Results
