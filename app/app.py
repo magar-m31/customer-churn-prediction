@@ -121,6 +121,6 @@ def get_metrics():
 
 
 if __name__ == '__main__':
-    # Bind to 0.0.0.0 so AWS can access it, use PORT from environment if available
+
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
