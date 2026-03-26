@@ -138,6 +138,12 @@
             color: #e74c3c;
         }
 
+        #result.medium {
+            background: #fff8e1;
+            border: 2px solid #fbc02d;
+            color: #f57f17;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -330,7 +336,7 @@
                 </div>
             </details>
 
-            <button type="submit" class="btn">Predict Churn</button>
+            <button type="submit" class="btn">🔍 Check Customer Risk</button>
             <button type="button" class="btn" style="background: #28a745; margin-top: 10px;"
                 onclick="loadPredictions()">📈 View Predictions History</button>
 
@@ -386,13 +392,18 @@
                 resultDiv.style.display = 'block';
 
                 if (response.ok) {
-                    if (data.prediction === "Churn") {
+
+
+                    if (data.probability >= 50) {
                         resultDiv.className = "error";
                     } else {
                         resultDiv.className = "success";
                     }
-                    resultDiv.innerText =
-                        `Prediction: ${data.prediction} | Probability: ${(data.probability * 100).toFixed(2)}%`;
+
+                    resultDiv.innerHTML = `
+                        <div style="font-size:20px;">${data.message}</div>
+                        <div>📈 Probability: <b>${data.probability}%</b></div>
+                       `;
                 } else {
                     resultDiv.className = "error";
                     resultDiv.innerText = `Error: ${data.error}`;
@@ -418,7 +429,13 @@
                     const churnClass = pred.predicted_churn == 1 ? 'style="background: #ffebee; color: #c62828;"' : 'style="background: #e8f5e8; color: #2e7d32;"';
                     html += `<tr ${churnClass}>
                 <td>${pred.customerID}</td>
-                <td>${pred.predicted_churn == 1 ? '🚨 WILL CHURN' : '✅ WILL STAY'}</td>
+                <td>
+                      ${pred.churn_probability >= 0.7
+                            ? '🚨 WILL LEAVE'
+                            : pred.churn_probability >= 0.5
+                                ? '⚠️ MIGHT LEAVE'
+                                : '✅ WILL STAY'}
+                </td>
                 <td>${(pred.churn_probability * 100).toFixed(1)}%</td>
                 <td>${pred.model_name}</td>
                 <td>${new Date(pred.prediction_date).toLocaleString()}</td>
