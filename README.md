@@ -1,101 +1,140 @@
-# Customer Churn Prediction 🚀
+# 📊 Customer Churn Prediction System
 
-A machine learning project to predict **customer churn** in a telecom company using historical usage patterns, demographic details, and service information.  
-This project includes model training, evaluation, and deployment through a simple Flask web application.
+A complete **end-to-end Machine Learning project** for predicting customer churn, storing results in a database, and visualizing them through a dashboard.
 
----
-
-## 📌 Table of Contents
-- [Overview](#overview)
-- [Dataset](#dataset)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Results](#results)
-- [Future Improvements](#future-improvements)
-- [License](#license)
+This system predicts whether a telecom customer will leave(churn), keeps a log of prediction history, and shows model performance on a web UI.
 
 ---
 
-## 🔎 Overview
-Customer churn is when a customer stops using a company’s product/service.  
-The goal of this project is to **predict which customers are likely to churn**, so businesses can take proactive action to retain them.
+## 🚀 Features
 
-The project uses:
-- **Python**
-- **Flask** (for deployment)
-- **scikit-learn** (for ML models)
-- **Pandas / NumPy** (for data preprocessing)
-- **Pickle** (for saving ML models)
-
----
-
-## 📊 Dataset
-We used the **Telco Customer Churn dataset** from [IBM Sample Data](https://www.ibm.com/communities/analytics/watson-analytics-blog/guide-to-sample-datasets/).
-
-- Features include demographics, account information, and service usage.
-- Target variable: `Churn` (Yes/No).
-
-> 📁 The dataset (`WA_Fn-UseC_Telco-Customer-Churn.csv`) is included in this repo for testing purposes.
+| Feature                      | Status                         |
+| ---------------------------- | ------------------------------ |
+| 🔮 **Real-time Predictions** | ✅ Flask Web App                |
+| 🗄️ **MySQL Integration**    | ✅ Data + Predictions + Metrics |
+| 📊 **Jupyter EDA**           | ✅ churn_pred.ipynb             |
+| 💾 **Model Persistence**     | ✅ Pickle files                 |
+| 🌐 **Web Dashboard**         | ✅ templates/index.html         |
+| 📈 **Performance Tracking**  | ✅ Model metrics logged         |
 
 ---
 
-## 📂 Project Structure
+## 🏗️ Project Structure
 
+```plaintext
 customer-churn-prediction/
-│── templates/ # HTML templates for Flask app
-│── app.py # Flask application
-│── wsgi.py # WSGI entry point (for deployment)
-│── ccp.ipynb # Jupyter notebook with data exploration & model training
-│── best_model.pkl # Trained model
-│── encoder.pkl # Label encoder
-│── scaler.pkl # Data scaler
-│── requirements.txt # Python dependencies
-│── LICENSE # License file
-│── README.md # Project documentation
+│
+├── app/                     # Flask backend and templates
+│   ├── templates/
+│   │   └── index.html       # Frontend UI
+│   ├── app.py               # Flask app
+│   └── wsgi.py              # WSGI entry point for deployment
+│
+├── dashboard/               # Dashboard screenshots
+│   ├── info.png
+│   ├── result1.png
+│   └── result2.png
+│
+├── database/                # Data and SQL scripts
+│   ├── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Dataset
+│   └── churn_schema.sql     # SQL schema
+│
+├── notebooks/               # Jupyter notebooks
+│   └── churn_pred.ipynb     # EDA and model training
+│
+├── .gitignore
+├── LICENSE
+├── README.md
+└── requirements.txt         # Python dependencies
+```
 
+---
+
+## 🧠 ML Pipeline Overview
+
+1. Data → MySQL (`raw_data`)
+2. EDA → SQL Queries (`churn_pred.ipynb`)
+3. Feature Engineering → SQL CASE statements
+4. Training → Random Forest (77.7% Accuracy)
+5. API → Flask `/predict` endpoint
+6. Logging → `customer_predictions` table
+
+### Model Performance
+
+| Model         | Accuracy | ROC-AUC | Precision | Recall | F1-Score |
+| ------------- | -------- | ------- | --------- | ------ | -------- |
+| Random Forest | 77.7%    | 74.3%   | 75.0%     | 72.0%  | 73.5%    |
 
 ---
 
 ## ⚙️ Installation
-Clone this repository and install dependencies:
+
+1. **Clone the repository**
 
 ```bash
 git clone https://github.com/magar-m31/customer-churn-prediction.git
 cd customer-churn-prediction
+```
+
+2. **Install dependencies**
+
+```bash
 pip install -r requirements.txt
+```
 
+3. **Setup MySQL database**
 
-▶️ Usage
+```sql
+CREATE DATABASE customer_churn;
+```
 
-Run the Flask app:
+* Run SQL script inside `database/churn_schema.sql` to create tables.
+
+4. **Start the Flask app**
+
+```bash
+cd app
 python app.py
+```
+
+5. **Open dashboard**
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## 📈 How It Works
+
+1. User enters customer details in the web form (`index.html`)
+2. Flask API receives the input (`app.py`)
+3. Model predicts churn + probability
+4. Results stored in MySQL
+5. Dashboard displays prediction logs and model metrics
+
+---
+
+## 📸 Dashboard & Visuals
+
+* `dashboard/info.png` – General info view
+* `dashboard/result1.png` – Sample prediction results
+* `dashboard/result2.png` – Model performance metrics
+
+*(Add more screenshots or GIFs as needed for demo)*
+
+---
+
+## 🎯 Future Improvements
+
+* Add interactive charts for visual analysis 📊
+* Improve model accuracy using feature engineering & hyperparameter tuning 🚀
+* Deploy app online (Heroku / AWS / Render) 🌍
+* Add user authentication & role-based access 🔐
+* Automate model retraining with new data
 
 
-Open the app in your browser:
-
-http://127.0.0.1:5000/
-
-
-Enter customer details and get churn prediction instantly ✅
-
-
-
-📈 Results
-
-Achieved ~XX% accuracy on the test set.
-
-The model helps identify high-risk customers who are likely to leave.
-
-(You can update this with your actual results/metrics.)
-
-🚀 Future Improvements
-
-Deploy app on Heroku / Render / Hugging Face Spaces for public access
-
-Experiment with deep learning models
-
-Improve feature engineering
+---
 
 📜 License
 
