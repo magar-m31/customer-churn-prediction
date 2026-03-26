@@ -65,24 +65,42 @@ def predict():
             'customerID', f'cust_{datetime.now().strftime("%Y%m%d%H%M%S")}')
 
         input_df = pd.DataFrame([data])
+
         for col, encoder in encoders.items():
             input_df[col] = encoder.transform(input_df[col])
+
         num_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
         input_df[num_cols] = scaler.transform(input_df[num_cols])
 
-        prediction = loaded_model.predict(input_df)[0]
         probability = loaded_model.predict_proba(input_df)[0][1]
 
-        print("Prediction:", prediction, "Probability:", round(probability, 4))
+        THRESHOLD = 0.5
+
+        if probability >= 0.7:
+            result_text = "🔴 High Risk: Customer may leave soon"
+            predicted_label = 1
+            risk_level = "High"
+        elif probability >= 0.5:
+            result_text = "🟡 Medium Risk: Customer might consider leaving"
+            predicted_label = 1
+            risk_level = "Medium"
+        else:
+            result_text = "🟢 Low Risk: Customer is likely to stay"
+            predicted_label = 0
+            risk_level = "Low"
+
+        print("Probability:", round(probability, 4), "Result:", result_text)
 
         log_customer_prediction(customer_id, data.get(
-            'actual_churn'), prediction, probability)
+            'actual_churn'), predicted_label, probability)
 
         return jsonify({
-            'prediction': 'Churn' if prediction == 1 else 'No Churn',
-            'probability': round(float(probability), 4),
+            'message': result_text,
+            'risk_level': risk_level,
+            'probability': round(float(probability) * 100, 2),
             'customerID': customer_id
         })
+
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
@@ -92,9 +110,9 @@ def get_predictions():
     try:
         conn = get_mysql_connection()
         df = pd.read_sql("""
-            SELECT customerID, predicted_churn, churn_probability, model_name, prediction_date 
-            FROM customer_predictions 
-            ORDER BY prediction_id DESC 
+            SELECT customerID, predicted_churn, churn_probability, model_name, prediction_date
+            FROM customer_predictions
+            ORDER BY prediction_id DESC
             LIMIT 10
         """, conn)
         conn.close()
