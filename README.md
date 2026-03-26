@@ -121,7 +121,6 @@ http://127.0.0.1:5000
 * `dashboard/result1.png` – Sample prediction results
 * `dashboard/result2.png` – Model performance metrics
 
-*(Add more screenshots or GIFs as needed for demo)*
 
 ---
 
